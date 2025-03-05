@@ -10,6 +10,8 @@ class HubLogin {
     HUB_SIGNIN_BUTTON = '//button//*[contains(text(), "Sign in")]';
     SUCCESS_NOTIFICATION = '//*[text()="You successfully signed in"]'
     HUB_LOGOUT_BOTTON = '//button[(contains(@class, "items-center whitespace-nowrap"))]'
+    HUB_RECOVER_BUTTON = '//*[text()="Recover"]'
+    SEND_CONFIRMATION_LINK = '//*[@type="submit"]'
 
 
     async goto() {
@@ -27,12 +29,20 @@ class HubLogin {
 
     async clickLoginButtonHub() {
         await uiContext.page.locator(this.HUB_SIGNIN_BUTTON).click()
-        
     };
     
     async assertSuccessNotificationToBeVisible() { 
         await expect(uiContext.page.locator(this.SUCCESS_NOTIFICATION)).toBeVisible();
     };
+
+    async clickRecoverButton() {
+        await uiContext.page.locator(this.HUB_RECOVER_BUTTON).click()
+    };
+
+    async clickSendConfirmationLink() {
+        await uiContext.page.locator(this.SEND_CONFIRMATION_LINK).click()
+    }
+
 
     async clickLogOutButtonHub() {
         await uiContext.page.locator(this.HUB_LOGOUT_BOTTON).click()
