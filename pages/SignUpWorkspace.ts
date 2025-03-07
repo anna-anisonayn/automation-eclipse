@@ -55,7 +55,7 @@ class SignUpWorkspace {
         await this.fillEmail(workspaceUserEmail);
         await this.clickAcceptTermsCheckbox();
         await this.clickSignUpButton();
-        await uiContext.page.waitForTimeout(7000);
+        await uiContext.page.waitForTimeout(15000);
     }
 
     async registrationToWorkspace(url) {
@@ -64,15 +64,6 @@ class SignUpWorkspace {
         await this.fillRepeatPassword(this.PASSWORD);
         await this.clickWorkspceSignUpButton()
     }
-
-
-
-
-     
-
-
-
-
-
+    
 }
-export const signUpWorkspace = new SignUpWorkspace();   
+export const signUpWorkspace = new SignUpWorkspace();

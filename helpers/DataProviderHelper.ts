@@ -33,9 +33,14 @@ export class DataProviderHelper {
         return faker.string.alpha(length);
     }
 
-    static getRandomStringLong(length = 10) {
+    static getRandomListName(length = 5) {
         return faker.string.alphanumeric(length);
     }
+
+    static getRandomTaskName(length = 10) {
+        return faker.string.alphanumeric(length);
+    }
+
 
 
 
