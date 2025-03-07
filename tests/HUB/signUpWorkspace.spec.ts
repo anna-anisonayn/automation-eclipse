@@ -4,16 +4,13 @@ import { hubLogin } from '../../pages/HubLogin';
 import { hubCreateWorkspace } from '../../pages/HubCreateWorkspace';
 import { hubWorkspacePayment } from '../../pages/HubWorkspacePayment';
 import { signUpWorkspace } from '../../pages/SignUpWorkspace';
-import { time, timeStamp } from 'console';
 import { DataProviderHelper } from '../../helpers/DataProviderHelper';
 import { EmailReader } from '../../helpers/EmailReader';
 import { DataConversionHelper } from '../../helpers/DataConversionHelper';
 
-const workspaceUserEmail = DataProviderHelper.getWorkspaceUserEmail()
+
 
 test("Sign up to Workspace via admin link", async ({browser}) => {
-    const currentTimestamp = DataProviderHelper.getTimestamp()
-
     await uiContext.setContext(browser);
     await hubLogin.hubSignIn();
     await hubCreateWorkspace.workspaceCreation(hubCreateWorkspace.workspaceName);
@@ -23,23 +20,34 @@ test("Sign up to Workspace via admin link", async ({browser}) => {
     const secondPagePromise = uiContext.startWaitingNewPageEvent() // uiContext.context.waitForEvent('page');
     await signUpWorkspace.clickOpenWorkspaceButton();
     await uiContext.switchCurrentContextToNewPage(secondPagePromise); // uiContext.page = await secondPagePromise;    
-    
-    await signUpWorkspace.SignUpToWorkspace(workspaceUserEmail)
-    const main_main = workspaceUserEmail
-    console.log(main_main)
+    const workspaceUserEmail = DataProviderHelper.getWorkspaceUserEmail()
 
-    //console.log('workspaceUserEmail:', workspaceUserEmail);
-    // console.log('currentTimestamp:', currentTimestamp);
+    await signUpWorkspace.fillEmail(workspaceUserEmail)
+    await signUpWorkspace.clickAcceptTermsCheckbox();
+    await signUpWorkspace.clickSignUpButton();
+    await uiContext.page.waitForTimeout(3000);
 
-    const signUpUrl = await EmailReader.getEmailMsgExtractUrl(`after:${currentTimestamp}`, )
-    console.log("signUpUrl:", signUpUrl)
-    await uiContext.page.waitForTimeout(5000);
-    await uiContext.page.goto(signUpUrl);
-    await uiContext.page.waitForTimeout(5000);
-    await signUpWorkspace.fillPassword(signUpWorkspace.PASSWORD);
-    await signUpWorkspace.fillRepeatPassword(signUpWorkspace.PASSWORD);
-    await signUpWorkspace.clickWorkspceSignUpButton();
 
+    const currentTimestamp = DataProviderHelper.getTimestamp()
+
+    //await uiContext.page.pause()
+
+    console.log('workspaceUserEmail:', workspaceUserEmail);
+    console.log('currentTimestamp:', currentTimestamp);
+
+    const emailMsg = await EmailReader.getEmailMsg(`after:${currentTimestamp}`);
+    console.log('emailMsg', emailMsg);
+    const bodyText = DataConversionHelper.base64ToTextString(emailMsg!['payload']['parts'][1]['body']['data']);
+    console.log('bodyText::', bodyText)
+
+    if (bodyText) {
+        const urlMatchingRegex = /a\s+href=["'](\S+)["']/;
+        const signUpUrl = bodyText.match((urlMatchingRegex)[1])
+        console.log("signUpUrl:", signUpUrl)
+    } else {
+        throw 'Message body is empty or undefined'
+    }
+  
 })
 
 

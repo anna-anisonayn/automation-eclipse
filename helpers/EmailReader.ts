@@ -8,7 +8,7 @@ export class EmailReader {
     static async getEmailMsg(query: string) {
         return await checkInbox({
             token: process.env.GMAIL_ACCESS_TOKEN!, 
-            timeout: 15000, 
+            timeout: 20000, 
             step: 1500,
             query: query
         });
@@ -16,7 +16,7 @@ export class EmailReader {
     
     static getEmailMsgBody(emailMsg: Email | Email[] | null) {
         if(!emailMsg || !emailMsg['payload'])
-            throw `Email Message is not found`;
+            throw `gggggggEmail Message is not found`;
         
         if (emailMsg['payload']['body']['size'] != 0) {
             return DataConversionHelper.base64ToTextString(emailMsg['payload']['body']['data']);
