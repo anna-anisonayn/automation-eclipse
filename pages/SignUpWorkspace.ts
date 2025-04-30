@@ -50,12 +50,11 @@ class SignUpWorkspace {
         await uiContext.page.locator(this.WORKSPACE_SIGNUPHUB_BUTTON).click()
     };
 
-
     async SignUpToWorkspace(workspaceUserEmail) {
         await this.fillEmail(workspaceUserEmail);
         await this.clickAcceptTermsCheckbox();
         await this.clickSignUpButton();
-        await uiContext.page.waitForTimeout(15000);
+        await uiContext.page.waitForTimeout(3000);
     }
 
     async registrationToWorkspace(url) {
@@ -64,6 +63,6 @@ class SignUpWorkspace {
         await this.fillRepeatPassword(this.PASSWORD);
         await this.clickWorkspceSignUpButton()
     }
-    
+
 }
 export const signUpWorkspace = new SignUpWorkspace();

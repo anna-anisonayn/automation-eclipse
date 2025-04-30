@@ -1,6 +1,5 @@
-import { test, expect} from '@playwright/test'
+import { test} from '@playwright/test'
 import { uiContext } from "../../pages/UiContext";
-
 import { DataProviderHelper } from '../../helpers/DataProviderHelper';
 import { messengerCreateChats } from '../../pages/MessengerCreateChats';
 import { hubLogin } from '../../pages/HubLogin';
@@ -12,49 +11,50 @@ import { workspaceProfile } from '../../pages/WorkspaceProfile';
 import { signUpWorkspace } from '../../pages/SignUpWorkspace';
 
 
-const TagName = `tag${DataProviderHelper.getTimestamp()}`;
+const currentTimestamp = DataProviderHelper.getTimestamp();
 const workspaceUserEmail = DataProviderHelper.getWorkspaceUserEmail();
-
-
+const tagName = `tag${DataProviderHelper.getTimestamp()}`
 
 test ('Tag creation and attachment to a chat', async({browser}) => {
-    const currentTimestamp = DataProviderHelper.getTimestamp();
     await uiContext.setContext(browser);
     await hubLogin.hubSignIn();
     await hubCreateWorkspace.workspaceCreation(hubCreateWorkspace.workspaceName);
     await hubWorkspacePayment.workspaceTrialPeriod();
     await signUpWorkspace.clickGetAdminLinkButton();
+    await uiContext.page.waitForTimeout(10000);
+
     const secondPagePromise = uiContext.startWaitingNewPageEvent(); // uiContext.context.waitForEvent('page');
     await signUpWorkspace.clickOpenWorkspaceButton();
-    await uiContext.page.waitForTimeout(3000);
-
     await uiContext.switchCurrentContextToNewPage(secondPagePromise); 
-    await signUpWorkspace.SignUpToWorkspace(workspaceUserEmail);
     await uiContext.page.waitForTimeout(3000);
-    const signUpUrl = await EmailReader.getEmailMsgExtractUrl(`after:${currentTimestamp}`, );
-    await uiContext.page.waitForTimeout(7000);
+    await signUpWorkspace.SignUpToWorkspace(workspaceUserEmail)
+    //const main_main = workspaceUserEmail
+    //console.log(main_main)
+    await uiContext.page.waitForTimeout(3000);
 
-    
+    const signUpUrl = await EmailReader.getEmailMsgExtractUrl(`${currentTimestamp}` )
+    console.log("signUpUrl:", signUpUrl)
+    await uiContext.page.waitForTimeout(3000);
+    await uiContext.page.goto(signUpUrl);
     await signUpWorkspace.registrationToWorkspace(signUpUrl);
     await workspaceProfile.saveProfileSetting();
     await messengerCreateChats.createChat();
     await tagAttachmentToChat.tagCreation();
     await messengerCreateChats.clickChatNameInMenuSection();
     await messengerCreateChats.clickChatName();
-    await tagAttachmentToChat.clickCurrentTagName();
+
+    await tagAttachmentToChat.clickCurrentTagName('tagname');
     await messengerCreateChats.clickUpdateChat();
-    await tagAttachmentToChat.hoverSettingsSection();
+    //await uiContext.page.pause()
+
     await tagAttachmentToChat.clickSettingsButton();
-    await tagAttachmentToChat.clickCurrentTagName();
-    await tagAttachmentToChat.hoverSettingsSection();
-    await tagAttachmentToChat.clickSettingsButton();
-    await tagAttachmentToChat.clickTagName(TagName);
+    await tagAttachmentToChat.clickTagName(tagName);
     await tagAttachmentToChat.clickDeleteTag();
     await tagAttachmentToChat.clickContinueDeleteTag();
     await messengerCreateChats.deleteChat();
-    await messengerCreateChats.logoutOfWorkspace();
+    await uiContext.page.waitForTimeout(1000);
+    await messengerCreateChats.clickUserProfileSettings();
+    await messengerCreateChats.clickLogout();
+    await messengerCreateChats.clickReallyLeaveButton();
 
 })
-
-
-

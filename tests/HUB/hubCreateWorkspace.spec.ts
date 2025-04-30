@@ -16,13 +16,10 @@ test('Create new workspace', async({browser}) => {
     await hubCreateWorkspace.clickProceedConfigurationButton();
     await hubCreateWorkspace.fillWorkspaceDomain(hubCreateWorkspace.workspaceName);
     await hubCreateWorkspace.clickUpdateWorkspaceButton();
-    await hubCreateWorkspace.assertWorkspaceUpdatedNotification()
+    await hubCreateWorkspace.assertWorkspaceUpdatedNotification();
     await hubCreateWorkspace.assertMenu1Item();
     await hubCreateWorkspace.assertMenu2Item();
     await hubCreateWorkspace.assertMenu3Item();
     await hubCreateWorkspace.assertMenu4Item();
     await hubCreateWorkspace.assertMenu5Item();
-
-
-
 });

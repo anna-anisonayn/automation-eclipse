@@ -15,6 +15,7 @@ class CreateProject {
     THREE_DOTS = '//*[contains(@class, "lucide lucide-ellipsis h-5 w-5")]'
     SAVE_PROJECT = '//button[text()="Save project"]'
     ARCHIVE_PROJECT = '//button[text()="Archive project"]'
+    
 
 
 
@@ -45,7 +46,7 @@ class CreateProject {
     };
 
     async assertProjectCreationNotification() { 
-        await expect(uiContext.page.getByText(this.PROJECT_CREATION_NOTIFICATION)).toBeVisible();
+        await expect.soft(uiContext.page.getByText(this.PROJECT_CREATION_NOTIFICATION)).toBeVisible();
     };
 
     async clickProjectName(id) {
@@ -74,6 +75,10 @@ class CreateProject {
 
     async clickArchiveProject() {
         await uiContext.page.getByText('Archive project').click()
+    };
+
+    async clickContinueArchiveProject() {
+        await uiContext.page.getByText('Continue').click()
     };
 
     async assertProjectInboxText() { 

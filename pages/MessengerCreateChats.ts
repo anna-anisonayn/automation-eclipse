@@ -14,7 +14,7 @@ class MessengerCreateChats {
     CHANNEL_TITLE = '//input[@name="title"]'
     ChannelName = `workspace${DataProviderHelper.getTimestamp()}`
     CREATE_BUTTON = '//button[text()="Create chat"]'
-    CHANNEL_CREATION_NOTIFICATION = 'Channel was created'   //should be chat
+    CHANNEL_CREATION_NOTIFICATION = 'Chat was created'
     MEETS = '//button[text()="Meets"]'
     TASKS = '//button[text()="Tasks"]'
     USERS = '//button[text()="Users"]'
@@ -26,16 +26,17 @@ class MessengerCreateChats {
     DELETE_CHAT = '//*[text() = "Delete chat"]'
     CONTINUE_DELETE_CHAT = '//*[text() = "Continue"]'
     USER_PROFILE_SETTINGS = '//*[contains(@href, "/app/settings")]'
+    //*[contains(@class, "min-w-0 flex-1")]
     LOGOUT_BUTTON = '//*[text()= "Logout"]'
     REALLY_LEAVE_BUTTON = '//*[text()= "Really leave"]'
     CHAT_REMOVED_NOTIFICATION = 'Chat removed'   
-    WORKSPACE_NAME_IN_MENU_SECTION = '//*[contains(@class, "overflow-hidden text-ellipsis")]'
+    WORKSPACE_NAME_IN_MENU_SECTION = '//*[contains(@class, "inline-block text-wrap text-left flex-1 items-center overflow-hidden text-ellipsis")]'
     UPDATE_CHAT = '//*[text() = "Update chat"]'
 
 
 
     async goto() {
-        await uiContext.page.setViewportSize({width:2560, height:1392})
+        //await uiContext.page.setViewportSize({width:2560, height:1392})
         await uiContext.page.goto('https://newautomationaccount.staging.internal.eclipse.club/app'); 
     }; 
 
@@ -64,7 +65,7 @@ class MessengerCreateChats {
     };
 
     async assertChannelCreationNotification() { 
-        await expect(uiContext.page.getByText(this.CHANNEL_CREATION_NOTIFICATION)).toBeVisible();
+        await expect.soft(uiContext.page.getByText(this.CHANNEL_CREATION_NOTIFICATION)).toBeVisible();
     };
 
     async assertMeets() { 
@@ -112,7 +113,7 @@ class MessengerCreateChats {
     };
 
     async assertChatRemovedNotification() { 
-        await expect(uiContext.page.getByText(this.CHAT_REMOVED_NOTIFICATION)).toBeVisible();
+        await expect.soft(uiContext.page.getByText(this.CHAT_REMOVED_NOTIFICATION)).toBeVisible();
     };
 
 
@@ -155,6 +156,7 @@ class MessengerCreateChats {
 
     async logoutOfWorkspace() {
         await messengerCreateChats.clickUserProfileSettings();
+        await uiContext.page.waitForTimeout(1000);
         await messengerCreateChats.clickLogout();
         await messengerCreateChats.clickReallyLeaveButton();
     }

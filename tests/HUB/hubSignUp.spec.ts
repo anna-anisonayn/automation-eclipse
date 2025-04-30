@@ -25,7 +25,7 @@ test ('assertion of the text and buttons', async({browser}) => {
     //console.log('workspaceUserEmail:', workspaceUserEmail);
     //console.log('currentTimestamp:', timestamp);
 
-    const signUpUrl = await EmailReader.getEmailMsgExtractUrl(`after:${timestamp}`);
+    const signUpUrl = await EmailReader.getEmailMsgExtractUrl(`${timestamp}`);
     console.log("signUpUrl:", signUpUrl);
     await uiContext.page.goto(signUpUrl);
     await uiContext.page.waitForTimeout(2000);

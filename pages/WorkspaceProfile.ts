@@ -1,9 +1,5 @@
-import { expect } from "@playwright/test";
 import { uiContext } from "./UiContext";
 import { faker } from "@faker-js/faker";
-import { DataProviderHelper } from "../helpers/DataProviderHelper";
-
-
 
 class WorkspaceProfile {
     FIRST_NAME = '//*[@placeholder= "First name"]';
@@ -32,17 +28,13 @@ class WorkspaceProfile {
         await uiContext.page.locator(this.SAVE_PROFILE).click()
      };
 
-
-     async saveProfileSetting() {
+    async saveProfileSetting() {
         await this.fillFirstName(this.RANDOM_FIRST_NAME);
         await this.fillLastName(this.RANDOM_LAST_NAME);
         await this.fillDisplayName(this.RANDOM_DISPLAY_NAME);
         await this.clickSaveProfileButton();
-
-     }
- 
-}
-
+     };
+};
 
 export const workspaceProfile = new WorkspaceProfile();
 

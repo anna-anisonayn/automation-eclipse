@@ -1,15 +1,12 @@
-import {test, expect} from '@playwright/test'
+import {test} from '@playwright/test'
 import { uiContext } from "../../pages/UiContext";
-import { time, timeStamp } from 'console';
-import { EmailReader } from '../../helpers/EmailReader';
-import { DataConversionHelper } from '../../helpers/DataConversionHelper';
 import { messengerCreateChats } from '../../pages/MessengerCreateChats';
 import { createProject } from '../../pages/CreateProject';
 import { DataProviderHelper } from '../../helpers/DataProviderHelper';
 import { createTaskList } from '../../pages/CreateTaskList';
 
 const RandomString = DataProviderHelper.getRandomString();
-const RandomStringLong = DataProviderHelper.getRandomStringLong();
+//const RandomStringLong = DataProviderHelper.getRandomStringLong();
 
 test ('Create project, add tasks, add List and archive', async({browser}) => {
     await uiContext.setContext(browser);
@@ -17,8 +14,7 @@ test ('Create project, add tasks, add List and archive', async({browser}) => {
     await messengerCreateChats.fillEmail();
     await messengerCreateChats.fillPassword();
     await messengerCreateChats.clickSignInButton();
-    await messengerCreateChats.fillEmail();
-    await messengerCreateChats.fillPassword();
+    await uiContext.page.pause()
     await createProject.clickTasksButton();
     await createProject.clickNewProjectButton();
     await createProject.fillProjectID(RandomString);
@@ -27,12 +23,17 @@ test ('Create project, add tasks, add List and archive', async({browser}) => {
     await createProject.clickCreateProjectButton();
     await uiContext.page.getByText(RandomString).click();
     await createTaskList.clickAddAnotherList();
-    await createTaskList.fillListName(RandomStringLong);
+    await createTaskList.fillListName(RandomString);
     await createTaskList.clickAddListButton();
     await createProject.assertAddAnotherList();
     await createTaskList.clickAddTaskButton();
-    await createTaskList.fillTaskName(RandomStringLong);
+    await createTaskList.fillTaskName(RandomString);
     await createTaskList.clickAddTaskButton();
-
-    await uiContext.page.pause()
+    await createProject.clickProjectThreeDots();
+    await createProject.clickArchiveProject();
+    await createProject.clickContinueArchiveProject();
+    await uiContext.page.waitForTimeout(1000);
+    await messengerCreateChats.clickUserProfileSettings();
+    await messengerCreateChats.clickLogout();
+    await messengerCreateChats.clickReallyLeaveButton();
 })
