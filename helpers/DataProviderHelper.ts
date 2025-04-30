@@ -5,7 +5,7 @@ import { faker } from "@faker-js/faker";
 export class DataProviderHelper {
 
     static getTimestamp() {
-        return Math.floor(new Date().getTime() / 1000);
+        return Math.round(new Date().getTime() / 1000 | 0 );
     }
     static getWorkspaceUserEmail() { 
         const strtimestamp = this.getTimestamp().toString()

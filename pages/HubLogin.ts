@@ -16,7 +16,7 @@ class HubLogin {
 
     async goto() {
         //await uiContext.page.setViewportSize({width:2560, height:1392})
-        await uiContext.page.goto('https://hub.staging.internal.eclipse.club/workspaces');
+        await uiContext.page.goto('https://hub.staging.internal.eclipse.club/workspaces/'); //https://hub.eclipse.club/  https://hub.staging.internal.eclipse.club/workspaces
     };
 
     async fillUsernameHub(username) {
@@ -32,7 +32,7 @@ class HubLogin {
     };
     
     async assertSuccessNotificationToBeVisible() { 
-        await expect(uiContext.page.locator(this.SUCCESS_NOTIFICATION)).toBeVisible();
+        await expect.soft(uiContext.page.locator(this.SUCCESS_NOTIFICATION)).toBeVisible();
     };
 
     async clickRecoverButton() {

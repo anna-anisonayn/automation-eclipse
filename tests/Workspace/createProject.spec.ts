@@ -6,15 +6,12 @@ import { messengerCreateChats } from '../../pages/MessengerCreateChats';
 
 const RandomString = DataProviderHelper.getRandomString();
 
-
 test ('Create, Edit and Archive Project', async({browser}) => {
     await uiContext.setContext(browser);
     await messengerCreateChats.goto();
     await messengerCreateChats.fillEmail();
     await messengerCreateChats.fillPassword();
     await messengerCreateChats.clickSignInButton();
-    await messengerCreateChats.fillEmail();
-    await messengerCreateChats.fillPassword();
     await createProject.clickTasksButton();
     await createProject.clickNewProjectButton();
     await createProject.fillProjectID(RandomString);
@@ -33,4 +30,9 @@ test ('Create, Edit and Archive Project', async({browser}) => {
     await createProject.clickSaveProject();
     await createProject.clickProjectThreeDots();
     await createProject.clickArchiveProject();
+    await createProject.clickContinueArchiveProject();
+    await uiContext.page.waitForTimeout(1000);
+    await messengerCreateChats.clickUserProfileSettings();
+    await messengerCreateChats.clickLogout();
+    await messengerCreateChats.clickReallyLeaveButton();
 })

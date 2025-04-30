@@ -36,7 +36,7 @@ class HubCreateWorkspace {
     };
 
     async assertWorkspaceCreationNotification() { 
-        await expect(uiContext.page.getByText(this.WORKSPACE_CREATION_NOTIFICATION)).toBeVisible();
+        await expect.soft(uiContext.page.getByText(this.WORKSPACE_CREATION_NOTIFICATION)).toBeVisible();
     };
 
     async fillWorkspaceTitle(title) {
@@ -64,7 +64,7 @@ class HubCreateWorkspace {
     };
 
     async assertWorkspaceUpdatedNotification() { 
-        await expect(uiContext.page.getByText(this.WORKSPACE_UPDATED_NOTIFICATION)).toBeVisible();
+        await expect.soft(uiContext.page.getByText(this.WORKSPACE_UPDATED_NOTIFICATION)).toBeVisible();
     };
 
     async assertMenu1Item() { 

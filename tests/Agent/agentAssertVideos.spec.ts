@@ -6,11 +6,7 @@ import { agentAssertVideos } from '../../pages/AgentAssertVideos';
 
 const LANGUAGE_DROPDOWN = '//*[contains(@class, "menu_label__uJzmw")]'
 const dropdawn = '//*[contains(@class, "styles_lang_label__5zCyk")]'
-
 const language_list = ['English', 'Deutsch', 'Español', 'Français', 'Italiano', 'Português', 'Հայերեն', 'Brazil ' ]
-
-
-
 
 test('Sign in Agent and assert videos ', async({browser}) => {
     await uiContext.setContext(browser);  
@@ -27,7 +23,6 @@ test('Sign in Agent and assert videos ', async({browser}) => {
     for(const lang of languages)
     {
         const langtext = await lang.textContent();
-        //console.log(langtext)
     await uiContext.page.pause()
 
 
@@ -36,16 +31,8 @@ test('Sign in Agent and assert videos ', async({browser}) => {
             const secondPagePromise = uiContext.startWaitingNewPageEvent() // uiContext.context.waitForEvent('page');
             await agentAssertVideos.clickAboutUsVideo();
             await uiContext.switchCurrentContextToNewPage(secondPagePromise); // uiContext.page = await secondPagePromise;
-            //await agentAssertVideos.assertVideo() 
         }
     }
-
-
         //await agentAssertVideos.assertTitleOfVideo()
-
-
-
-
-
         //await agentLoginPage.clickLogOutButton();
 }) 

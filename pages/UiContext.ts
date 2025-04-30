@@ -24,6 +24,7 @@ class UiContext {
     async switchCurrentContextToNewPage(newPagePromise: Promise<Page>) {
         this.initialPage = this.page; // saving page into initialPage before switch
         this.page = await newPagePromise;
+        
         await this.page.waitForLoadState(); // Wait new page to load.
     }
 

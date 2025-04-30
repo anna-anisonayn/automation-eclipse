@@ -1,27 +1,17 @@
-import { expect } from "@playwright/test";
 import { uiContext } from "./UiContext";
-import { faker } from "@faker-js/faker";
-import { DataProviderHelper } from "../helpers/DataProviderHelper";
-
 
 class TagAttachmentToChat {
 
-    HOVER_SETTINGS_SECTION = '//*[contains(@class, "group flex items")]'
-    SETTINGS_BUTTON = '//*[text()= "Settings"]'
+    SETTINGS_BUTTON = '//*[contains(@class, "lucide lucide-settings h-4 w-4")]'
     CREATE_WORKSPACE_BUTTON = '//*[text()= "Create workspace tag"]'
     TAG_TITLE_FIELD = '//*[@placeholder= "Tag title"]'
     CREATE_BUTTON = '//*[text()= "Create tag"]'
-    TAG_NAME = '//*[contains(@class, "navigation-hover focus-visible:bg-outline h-12 py")]'
+    TAG_NAME = '//*[contains(@class, "focus-visible:bg-outline h-12 py-2 p")]'
     DELETE_TAG = '//*[text() = "Delete tag"]'
     UPDATE_TAG = '//*[text() = "Update tag"]'
     CONTINUE_DELETE_TAG = '//*[text() = "Continue"]'
-    TagName = `tag${DataProviderHelper.getTimestamp()}`
 
-       
-    async hoverSettingsSection() {
-        await uiContext.page.locator(this.HOVER_SETTINGS_SECTION).hover()
-    };
-
+ 
     async clickSettingsButton() {
         await uiContext.page.locator(this.SETTINGS_BUTTON).click()
     };
@@ -34,8 +24,8 @@ class TagAttachmentToChat {
         await uiContext.page.locator(this.TAG_TITLE_FIELD).fill(tagName)
     };
 
-    async clickCurrentTagName() {
-        await uiContext.page.getByText(this.TagName).click()
+    async clickCurrentTagName(tagname) {
+        await uiContext.page.getByText(tagname).click(tagname)
     };
     
     async clickCreateTagButton() {
@@ -54,29 +44,20 @@ class TagAttachmentToChat {
         await uiContext.page.locator(this.CONTINUE_DELETE_TAG).click()
     };
 
-    
     async clickUpdateTag() {
         await uiContext.page.locator(this.UPDATE_TAG).click()
     };
 
     async tagCreation() {
-        await tagAttachmentToChat.hoverSettingsSection();
         await tagAttachmentToChat.clickSettingsButton();
         await tagAttachmentToChat.clickCreateWorkspaceTagButton();
-        await tagAttachmentToChat.fillTagTitle(this.TagName);
+        await tagAttachmentToChat.fillTagTitle('tagname');
         await tagAttachmentToChat.clickCreateTagButton();
-    }
-}
+    };
+};
+
 export const tagAttachmentToChat = new TagAttachmentToChat();
 
-
-
-
-
-
-    
-    
-    
     
     
     

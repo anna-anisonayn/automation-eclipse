@@ -21,7 +21,7 @@ test('Get recovery email', async({browser}) => {
     await uiContext.page.waitForTimeout(6000);
 
     //const timestamp = DataProviderHelper.getTimestamp();
-    const signUpUrl = await EmailReader.getEmailMsgExtractUrl(`after:${currentTimestamp}`);
+    const signUpUrl = await EmailReader.getEmailMsgExtractUrl(`${currentTimestamp}`);
     console.log("signUpUrl:", signUpUrl);
     await uiContext.page.goto(signUpUrl);
 
